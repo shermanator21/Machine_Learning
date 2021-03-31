@@ -1,7 +1,11 @@
+import matplotlib.pyplot as plt2
+import seaborn as sns
+import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.datasets import load_digits
 from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import confusion_matrix
 
 digits = load_digits()
 
@@ -33,7 +37,7 @@ for item in zip(axes.ravel(), digits.images, digits.target):
 plt.tight_layout()
 # plt.show()
 
-#from sklean.model_selection import train_test_split
+#from sklearn.model_selection import train_test_split
 
 data_train, data_test, target_train, target_test = train_test_split(
     digits.data, digits.target, random_state=11
@@ -64,3 +68,26 @@ print(predicted[:20])
 print(expected[:20])
 
 wrong = [(p, e) for (p, e) in zip(predicted, expected) if p != e]
+
+print(wrong)
+
+print(format(knn.score(data_test, target_test), ".2%"))
+
+#from sklearn.metrics import confusion_matrix
+confusion = confusion_matrix(y_true=expected, y_pred=predicted)
+
+print(confusion)
+
+'''
+import matplotlib.pyplot as plt2
+import seaborn as sns
+import pandas as pd
+'''
+
+confusion_df = pd.DataFrame(confusion, index=range(10), columns=range(10))
+
+figure = plt2.figure(figsize=(7, 6))
+axes = sns.heatmap(confusion_df, annot=True, cmap=plt2.cm.nipy_spectral_r)
+# plt2.show()
+
+print("done")
