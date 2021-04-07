@@ -39,7 +39,7 @@ knn = KNeighborsClassifier()
 
 knn.fit(X=data_train, y=target_train)  # uppercase X lowercase y
 # Returns an array containing the predicted class of each test image:
-# creates an arrya of digits
+# creates an array of digits
 
 predicted = knn.predict(X=data_test)
 
