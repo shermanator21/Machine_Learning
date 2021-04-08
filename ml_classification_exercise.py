@@ -24,6 +24,7 @@ from sklearn.metrics import confusion_matrix
 
 # 1.
 iris = load_iris()
+# print(iris.DESCR)
 
 # 2.
 print("Shape: ", iris.data.shape)
@@ -68,6 +69,6 @@ confusion_df = pd.DataFrame(confusion, index=range(3), columns=range(3))
 
 figure = plt2.figure(figsize=(7, 6))
 axes = sns.heatmap(confusion_df, annot=True, cmap=plt2.cm.nipy_spectral_r)
-plt2.show()
+# plt2.show()
 
 print("done")
