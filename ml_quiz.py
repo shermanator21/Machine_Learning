@@ -1,3 +1,4 @@
+from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
 import pandas as pd
 import csv
@@ -15,45 +16,30 @@ for i in classes.Class_Number:
 
 # TRAIN THE MODEL
 
+# read in csv files to their own database with pandas
 train_df = pd.read_csv("animals_train.csv")
-
-
-knn = KNeighborsClassifier()
-# print(train_df['class_number'])
-
-
-knn.fit(X=train_df, y=train_df['class_number'])
-
-# TEST THE MODEL
 test_df = pd.read_csv("animals_test.csv")
 
-# convert all animal names to numbers
-animalDict = {}
-n = 0
-for i in test_df.animal_name:
-    animalDict[n + 1] = i
-    n += 1
+x_columns = ['hair', 'feathers', 'eggs', 'milk', 'airborne', 'aquatic', 'predator', 'toothed', 'backbone',
+             'breathes', 'venomous', 'fins', 'legs', 'tail', 'domestic', 'catsize']
+y_column = ["class_number"]
 
-# replace animal names with numbers
-'''
-for n in range(1, 37):
-    test_df["animal_name"].replace({animalDict[n]: n}, inplace=True)
-'''
+knn = KNeighborsClassifier()
 
-predicted = knn.predict(X=test_df)
+knn.fit(X=train_df[x_columns], y=train_df[y_column])
 
-expected = test_df['animal_name']
+# WRITING TO CSV
+animal_predicted_classes = knn.predict(test_df[x_columns])
+print(animal_predicted_classes)
 
-print(predicted[: 20])
-print(expected[: 20])
+finalDict = {'animal_name': 'prediction'}
+animalNames = test_df['animal_name']
+i = 0
 
+for number in animal_predicted_classes:
+    finalDict[animalNames[i]] = classDict[number]
+    i += 1
 
-# WRITE OUT TO CSV
-'''
-animals = pd.DateFrame([], columns=['animal_name', 'prediction'])
-
-for animal in test:
-    animals.append([animal, animal_prediction])
-
-animals.to_csv('predictions.csv', index=False)
-'''
+with open('predictions.csv', 'w') as f:
+    for key in finalDict.keys():
+        f.write("%s,%s\n" % (key, finalDict[key]))
