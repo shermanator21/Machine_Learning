@@ -30,7 +30,6 @@ knn.fit(X=train_df[x_columns], y=train_df[y_column])
 
 # WRITING TO CSV
 animal_predicted_classes = knn.predict(test_df[x_columns])
-print(animal_predicted_classes)
 
 finalDict = {'animal_name': 'prediction'}
 animalNames = test_df['animal_name']
